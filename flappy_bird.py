@@ -55,8 +55,8 @@ def create_pipe():
 
 for i in range(3):
     pipes.append(create_pipe())
-    pipes[i][0].x += i * 200
-    pipes[i][1].x += i * 200
+    pipes[i][0].x += i * 300
+    pipes[i][1].x += i * 300
 
 
 def draw():
@@ -122,10 +122,11 @@ while running:
 
     if pipes[0][0].x < -pipe_width:
         pipes.pop(0)
-        new_pipe = create_pipe()
-        new_pipe[0].x = WIDTH
-        new_pipe[1].x = WIDTH
-        pipes.append(new_pipe)
+        last_pipe_x = pipes[-1][0].x
+        new_top, new_bottom = create_pipe()
+        new_top.x = last_pipe_x + 300
+        new_bottom.x = last_pipe_x + 300
+        pipes.append((new_top, new_bottom))
         score += 1
 
     if check_collision():
