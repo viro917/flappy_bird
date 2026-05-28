@@ -10,7 +10,17 @@ WIDTH = 400
 HEIGHT = 600
 screen = py.display.set_mode((WIDTH, HEIGHT))
 py.display.set_caption("Flappy Bird")
+vogel = py.image.load("vogel3.png").convert()
+vogel.set_colorkey((163, 73, 164))
+vogel = py.transform.scale(vogel, (50, 50))
 
+pipes_oben = py.image.load("pipes_oben.png").convert()
+pipes_oben.set_colorkey((163, 73, 164))
+pipes_oben = py.transform.scale(pipes_oben, (50, 50))
+
+pipes_unten = py.image.load("pipes_unten.png").convert()
+pipes_unten.set_colorkey((163, 73, 164))
+pipes_unten = py.transform.scale(pipes_unten, (50, 50))
 
 WHITE = (255, 255, 255)
 BLUE = (135, 206, 235)
@@ -63,12 +73,12 @@ def draw():
     screen.fill(BLUE)
 
 
-    py.draw.circle(screen, YELLOW, (bird_x, int(bird_y)), bird_radius)
+    screen.blit(vogel, (bird_x, int(bird_y)))
 
 
     for top, bottom in pipes:
-        py.draw.rect(screen, GREEN, top)
-        py.draw.rect(screen, GREEN, bottom)
+        screen.blit(pipes_oben, top)
+        screen.blit(pipes_unten, bottom)
 
 
     score_text = font.render(f"Score: {score}", True, WHITE)
