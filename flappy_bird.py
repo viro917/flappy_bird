@@ -105,14 +105,24 @@ reset()
 
 
 def create_powerup():
-    rect = py.Rect(
-        WIDTH + random.randint(0, 200),
-        random.randint(100, HEIGHT - 100),
-        25,
-        25
-    )
-    typ = random.choice(["FAST", "SLOW"])
-    return rect, typ
+    while True:
+        rect = py.Rect(
+            WIDTH + random.randint(0, 200),
+            random.randint(50, HEIGHT - 75),
+            25,
+            25
+        )
+
+        in_pipe = False
+
+        for top, bottom in pipes:
+            if rect.colliderect(top) or rect.colliderect(bottom):
+                in_pipe = True
+                break
+
+        if not in_pipe:
+            typ = random.choice(["FAST", "SLOW"])
+            return rect, typ
 
 
 def draw_game():
