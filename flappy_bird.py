@@ -15,11 +15,9 @@ vogel = py.image.load("vogel3.png").convert()
 vogel.set_colorkey((163, 73, 164))
 vogel = py.transform.scale(vogel, (50, 50))
 
-pipes_oben = py.image.load("pipes_oben.png").convert()
-pipes_oben.set_colorkey((163, 73, 164))
+pipes_oben = py.image.load("pipes_oben_neu.png").convert_alpha()
 
-pipes_unten = py.image.load("pipes_unten.png").convert()
-pipes_unten.set_colorkey((163, 73, 164))
+pipes_unten = py.image.load("pipes_unten_neu.png").convert_alpha()
 
 
 WHITE = (255, 255, 255)
@@ -36,7 +34,7 @@ gravity = 0.5
 jump_strength = -8
 
 
-pipe_width = 120
+pipe_width = 100
 pipe_gap = 180
 base_speed = 4
 pipe_speed = base_speed
