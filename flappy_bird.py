@@ -38,7 +38,7 @@ gravity = 0.5
 jump_strength = -8
 
 pipe_width = 100
-pipe_gap = 180
+pipe_gap = 200
 base_speed = 4
 pipe_speed = base_speed
 
