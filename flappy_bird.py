@@ -21,8 +21,14 @@ pipes_unten = py.image.load("pipes_unten_neu.png").convert_alpha()
 speed_icon = py.image.load("speed_icon.png").convert_alpha()
 slow_icon = py.image.load("slow_icon.png").convert_alpha()
 
+grow_icon = py.image.load("grow_icon.png").convert_alpha()
+shrink_icon = py.image.load("shrink_icon.png").convert_alpha()
+
 speed_icon = py.transform.scale(speed_icon, (25, 25))
 slow_icon = py.transform.scale(slow_icon, (25, 25))
+
+grow_icon = py.transform.scale(grow_icon, (25, 25))
+shrink_icon = py.transform.scale(shrink_icon, (25, 25))
 
 WHITE = (255, 255, 255)
 BLUE = (135, 206, 235)
@@ -34,6 +40,7 @@ font = py.font.SysFont(None, 40)
 bird_x = 80
 bird_y = HEIGHT // 2
 bird_velocity = 0
+bird_size = 50
 gravity = 0.5
 jump_strength = -8
 
@@ -69,12 +76,13 @@ highscore = load_highscore()
 
 
 def bird_rect():
-    shrink = 12
+    shrink = int(bird_size * 0.24)
+
     return py.Rect(
-        bird_x - 25 + shrink,
-        bird_y - 25 + shrink,
-        50 - shrink * 2,
-        50 - shrink * 2
+        bird_x - bird_size // 2 + shrink,
+        bird_y - bird_size // 2 + shrink,
+        bird_size - shrink * 2,
+        bird_size - shrink * 2
     )
 
 
@@ -100,6 +108,7 @@ def reset():
     global powerups
     global power_active
     global pipe_speed
+    global bird_size
 
     pipes = []
 
@@ -112,6 +121,7 @@ def reset():
     powerups = []
     power_active = None
     pipe_speed = base_speed
+    bird_size = 50
 
     bird_y = HEIGHT // 2
     bird_velocity = 0
@@ -139,7 +149,7 @@ def create_powerup():
                 break
 
         if not in_pipe:
-            typ = random.choice(["SPEED", "SLOW"])
+            typ = random.choice(["SPEED", "SLOW", "GROW", "SHRINK"])
             return rect, typ
 
 
@@ -147,7 +157,18 @@ def draw_game():
     screen.fill(BLUE)
 
     # Vogel
-    screen.blit(vogel, (bird_x - 25, int(bird_y) - 25))
+    scaled_bird = py.transform.scale(
+        vogel,
+        (bird_size, bird_size)
+    )
+
+    screen.blit(
+        scaled_bird,
+        (
+            bird_x - bird_size // 2,
+            int(bird_y) - bird_size // 2
+        )
+    )
 
     # Rohre
     for top, bottom in pipes:
@@ -170,8 +191,15 @@ def draw_game():
 
         if t == "SPEED":
             screen.blit(speed_icon, (p.x, p.y))
-        else:
+
+        elif t == "SLOW":
             screen.blit(slow_icon, (p.x, p.y))
+
+        elif t == "GROW":
+            screen.blit(grow_icon, (p.x, p.y))
+
+        elif t == "SHRINK":
+            screen.blit(shrink_icon, (p.x, p.y))
 
     txt = font.render(
         f"Score: {score}",
@@ -301,15 +329,25 @@ while running:
         draw_gameover()
         continue
 
-    # Powerup Effekte
     if power_active == "SPEED":
         pipe_speed = 7
+        bird_size = 50
 
     elif power_active == "SLOW":
         pipe_speed = 2
+        bird_size = 50
+
+    elif power_active == "GROW":
+        pipe_speed = base_speed
+        bird_size = 75
+
+    elif power_active == "SHRINK":
+        pipe_speed = base_speed
+        bird_size = 30
 
     else:
         pipe_speed = base_speed
+        bird_size = 50
 
     if (
         power_active and
