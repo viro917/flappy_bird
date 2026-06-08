@@ -9,7 +9,6 @@ HEIGHT = 600
 screen = py.display.set_mode((WIDTH, HEIGHT))
 py.display.set_caption("Flappy Bird")
 
-# Bilder laden
 vogel = py.image.load("vogel3.png").convert()
 vogel.set_colorkey((163, 73, 164))
 vogel = py.transform.scale(vogel, (50, 50))
@@ -17,7 +16,6 @@ vogel = py.transform.scale(vogel, (50, 50))
 pipes_oben = py.image.load("pipes_oben_neu.png").convert_alpha()
 pipes_unten = py.image.load("pipes_unten_neu.png").convert_alpha()
 
-# Powerup Icons laden
 speed_icon = py.image.load("speed_icon.png").convert_alpha()
 slow_icon = py.image.load("slow_icon.png").convert_alpha()
 
@@ -82,8 +80,7 @@ def bird_rect():
         bird_x - bird_size // 2 + shrink,
         bird_y - bird_size // 2 + shrink,
         bird_size - shrink * 2,
-        bird_size - shrink * 2
-    )
+        bird_size - shrink * 2)
 
 
 def create_pipe():
@@ -94,8 +91,7 @@ def create_pipe():
         WIDTH,
         h + pipe_gap,
         pipe_width,
-        HEIGHT - (h + pipe_gap)
-    )
+        HEIGHT - (h + pipe_gap))
 
     return top, bottom
 
@@ -138,8 +134,7 @@ def create_powerup():
             WIDTH + random.randint(0, 200),
             random.randint(50, HEIGHT - 75),
             25,
-            25
-        )
+            25)
 
         in_pipe = False
 
@@ -156,21 +151,16 @@ def create_powerup():
 def draw_game():
     screen.fill(BLUE)
 
-    # Vogel
     scaled_bird = py.transform.scale(
         vogel,
-        (bird_size, bird_size)
-    )
+        (bird_size, bird_size))
 
     screen.blit(
         scaled_bird,
         (
             bird_x - bird_size // 2,
-            int(bird_y) - bird_size // 2
-        )
-    )
+            int(bird_y) - bird_size // 2))
 
-    # Rohre
     for top, bottom in pipes:
 
         top_img = py.transform.scale(
@@ -209,13 +199,10 @@ def draw_game():
 
     screen.blit(txt, (10, 10))
 
-    # Aktives Powerup anzeigen
     if power_active:
         active_text = font.render(
             power_active,
-            True,
-            WHITE
-        )
+            True,WHITE)
 
         screen.blit(active_text, (260, 10))
 
@@ -227,22 +214,17 @@ def draw_start():
 
     screen.blit(
         font.render("FLAPPY BIRD", True, WHITE),
-        (110, 180)
-    )
+        (110, 180))
 
     screen.blit(
-        font.render("SPACE starten", True, WHITE),
-        (90, 240)
-    )
+font.render("SPACE starten", True, WHITE),
+        (90, 240))
 
     screen.blit(
         font.render(
             f"Highscore: {highscore}",
             True,
-            WHITE
-        ),
-        (90, 300)
-    )
+            WHITE),(90, 300))
 
     py.display.update()
 
@@ -251,28 +233,19 @@ def draw_gameover():
     screen.fill(BLUE)
 
     screen.blit(
-        font.render("GAME OVER", True, WHITE),
-        (110, 180)
-    )
+        font.render("GAME OVER", True, WHITE),(110, 180))
 
     screen.blit(
-        font.render(f"Score: {score}", True, WHITE),
-        (120, 240)
-    )
+        font.render(f"Score: {score}", True, WHITE),(120, 240))
 
     screen.blit(
         font.render(
             f"Highscore: {highscore}",
             True,
-            WHITE
-        ),
-        (90, 300)
-    )
+            WHITE),(90, 300))
 
     screen.blit(
-        font.render("SPACE Restart", True, WHITE),
-        (80, 360)
-    )
+        font.render("SPACE Restart", True, WHITE),(80, 360))
 
     py.display.update()
 
@@ -343,7 +316,7 @@ while running:
 
     elif power_active == "SHRINK":
         pipe_speed = base_speed
-        bird_size = 30
+        bird_size = 25
 
     else:
         pipe_speed = base_speed
@@ -355,21 +328,17 @@ while running:
     ):
         power_active = None
 
-    # Vogel Physik
     bird_velocity += gravity
     bird_y += bird_velocity
 
-    # Rohre bewegen
     for top, bottom in pipes:
 
         top.x -= pipe_speed
         bottom.x -= pipe_speed
 
-    # Neue Powerups
     if random.randint(1, 180) == 1:
         powerups.append(create_powerup())
 
-    # Powerups bewegen
     for p, t in powerups[:]:
 
         p.x -= pipe_speed
@@ -385,7 +354,6 @@ while running:
 
             powerups.remove((p, t))
 
-    # Neue Rohre
     if pipes[0][0].x < -pipe_width:
 
         pipes.pop(0)
@@ -401,7 +369,6 @@ while running:
 
         score += 1
 
-    # Kollision
     if check_collision():
 
         if score > highscore:
