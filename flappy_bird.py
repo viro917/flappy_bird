@@ -9,9 +9,10 @@ HEIGHT = 600
 screen = py.display.set_mode((WIDTH, HEIGHT))
 py.display.set_caption("Flappy Bird")
 
-vogel = py.image.load("vogel.png").convert_alpha()
+vogel = py.image.load("vogel.png").convert()
+vogel = py.transform.scale(vogel, (50, 50)).convert()
 vogel.set_colorkey((163, 73, 164))
-vogel = py.transform.scale(vogel, (50, 50))
+
 
 pipes_oben = py.image.load("pipes_oben_neu.png").convert_alpha()
 pipes_unten = py.image.load("pipes_unten_neu.png").convert_alpha()
@@ -19,7 +20,7 @@ pipes_unten = py.image.load("pipes_unten_neu.png").convert_alpha()
 speed_icon = py.image.load("speed_icon.png").convert_alpha()
 slow_icon = py.image.load("slow_icon.png").convert_alpha()
 
-grow_icon = py.image.load("grow_icon.png").convert_alpha()
+grow_icon = py.image.load("grow_icon.png").convert()
 grow_icon.set_colorkey((163, 73, 164))
 shrink_icon = py.image.load("shrink_icon.png").convert_alpha()
 
