@@ -166,13 +166,11 @@ def draw_game():
 
         top_img = py.transform.scale(
             pipes_oben,
-            (pipe_width, top.height)
-        )
+            (pipe_width, top.height))
 
         bottom_img = py.transform.scale(
             pipes_unten,
-            (pipe_width, bottom.height)
-        )
+            (pipe_width, bottom.height))
 
         screen.blit(top_img, (top.x, top.y))
         screen.blit(bottom_img, (bottom.x, bottom.y))
@@ -195,8 +193,7 @@ def draw_game():
     txt = font.render(
         f"Score: {score}",
         True,
-        WHITE
-    )
+        WHITE)
 
     screen.blit(txt, (10, 10))
 
@@ -325,8 +322,7 @@ while running:
 
     if (
         power_active and
-        py.time.get_ticks() - power_timer > 5000
-    ):
+        py.time.get_ticks() - power_timer > 500):
         power_active = None
 
     bird_velocity += gravity
