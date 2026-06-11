@@ -323,7 +323,7 @@ while running:
 
     if (
         power_active and
-        py.time.get_ticks() - power_timer > 500):
+        py.time.get_ticks() - power_timer > 5000):
         power_active = None
 
     bird_velocity += gravity
